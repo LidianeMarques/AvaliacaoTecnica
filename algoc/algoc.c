@@ -105,7 +105,7 @@ void main(void)
     arqSaida = fopen("algoc.out", "w"); // Cria um arquivo texto para gravacao
     if (arqSaida == NULL)               // Se nao conseguiu criar
     {
-        printf("Problemas na CRIACAO do arquivo\n");
+        printf("Problemas na criacao do arquivo\n");
         return;
     }
     while (!feof(arqEntrada))
@@ -131,8 +131,8 @@ void main(void)
         }
         else
         {
-            printf("Fim da execução pois foi colocado a Constante %d\n", constante);
-            fprintf(arqSaida, "Fim da execução pois foi colocado a Constante %d\n", constante);
+            printf("Fim da execucao pois foi colocado a Constante %d\n", constante);
+            fprintf(arqSaida, "Fim da execucao pois foi colocado a Constante %d\n", constante);
             break;
         }
         listar(arqSaida, item);
