@@ -5,6 +5,8 @@
 #include <ctype.h>
 
 char *sufixo = "en";
+
+// metodo para retirar espacos vasios no inicio e no fim da palavra
 char *trimString(char *str)
 {
   char *end;
@@ -19,14 +21,13 @@ char *trimString(char *str)
   return str;
 }
 
+// pega a substring do final de acordo com o valor qtd passado( exemplo qtd = 3 pega os 3 ultimos caracteres)
 char *pegaUltimosCaracteres(char *palavra, int qtd)
 {
   int tamanhoPalavra = strlen(palavra);
   int posicao = tamanhoPalavra - qtd;
   char *novaPalavra;
-
   novaPalavra = (char *)malloc(qtd * sizeof(char));
-
   int cont = 0;
   while (posicao < tamanhoPalavra)
   {
@@ -37,18 +38,22 @@ char *pegaUltimosCaracteres(char *palavra, int qtd)
   return novaPalavra;
 }
 
+// faz a verificacao se a palavra eh um verbo conjugado ou nao se for retorna 1 se nao retorna 0).
 int is_tempo_verbal(char *presente, char *palavra)
 {
-  return strcmp(presente, pegaUltimosCaracteres(palavra, strlen(presente))) ? 1 : 0;
+  return strcmp(presente, pegaUltimosCaracteres(palavra, strlen(presente))) ? 0 : 1;
 }
 
+// monta a frase de acordo com o tempo verbal encontrado
 void descreveTempoVerbal(FILE *arqSaida, char *sufixoLista, char *palavra, char *tempoVerbal)
 {
   char *prefixo = malloc(strlen(palavra));
   strncpy(prefixo, palavra, strlen(palavra) - strlen(sufixoLista));
-  fprintf(arqSaida, "%s - verb %s, present tense, %s person \n", palavra, strca
+  fprintf(arqSaida, "%s - verb %s, present tense, %s person \n", palavra, strcat(prefixo, sufixo), tempoVerbal);
 }
 
+// faz a verificacao se a palavra eh um verbo e de qual eh o tempo verbal pertence e chama
+// o metodo para montar a frase e coloca no arquivo de saida
 void determinaTempoVerbal(FILE *arqSaida, char *palavra)
 {
   char presente[6][5] = {"o", "os", "a", "om", "ons", "am"};
@@ -60,22 +65,22 @@ void determinaTempoVerbal(FILE *arqSaida, char *palavra)
   int cont; //variável de controle do loop
   for (cont = 0; cont < 6; cont++)
   {
-    if (is_tempo_verbal(presente[cont], palavra) == 0)
+    if (is_tempo_verbal(presente[cont], palavra) == 1)
     {
       descreveTempoVerbal(arqSaida, presente[cont], palavra, tempoVerbal[cont]);
       return;
     }
-    else if (is_tempo_verbal(passado[cont], palavra) == 0)
+    else if (is_tempo_verbal(passado[cont], palavra) == 1)
     {
       descreveTempoVerbal(arqSaida, passado[cont], palavra, tempoVerbal[cont]);
       return;
     }
-    else if (is_tempo_verbal(futuro[cont], palavra) == 0)
+    else if (is_tempo_verbal(futuro[cont], palavra) == 1)
     {
       descreveTempoVerbal(arqSaida, futuro[cont], palavra, tempoVerbal[cont]);
       return;
     }
-    else if (is_tempo_verbal(sufixo, palavra) == 0)
+    else if (is_tempo_verbal(sufixo, palavra) == 1)
     {
       fprintf(arqSaida, "%s is a verb case\n", palavra);
       return;
@@ -90,32 +95,33 @@ void main()
   FILE *arqEntrada;
   FILE *arqSaida;
   char str[100];
-  char *finalPalavra;
   char *palavra = malloc(strlen(str));
 
-  arqEntrada = fopen("verb.in", "r"); // Cria um arquivo texto para leitura
-  if (arqEntrada == NULL)             // Se nào conseguiu criar
+  arqEntrada = fopen("verb.in", "r"); // pega um arquivo texto para leitura
+  if (arqEntrada == NULL)             // verifica se nào conseguiu encontrar
   {
     printf("Problemas na leitura do arquivo \n");
     return;
   }
-  arqSaida = fopen("verb.out", "w"); // Cria um arquivo texto para gravação
-  if (arqSaida == NULL)              // Se nào conseguiu criar
+  arqSaida = fopen("verb.out", "w"); // pega ou cria um arquivo texto para gravação (caso ja tenha algo apaga tudo)
+  if (arqSaida == NULL)              // verifica se nào conseguiu criar
   {
     printf("Problemas na CRIACAO do arquivo\n");
     return;
   }
 
+  // percorre todo arquivo pegando cada linha (palavra) que contem até o final
   while (!feof(arqEntrada))
   {
-    if (fgets(str, 100, arqEntrada))
+    if (fgets(str, 100, arqEntrada)) // pega toda a linha
     {
       // tira o \n
-      palavra = trimString(str);
-      determinaTempoVerbal(arqSaida, palavra);
+      palavra = trimString(str);               // faz um tratamento pra tirar os espacos do inicio e do fim da linha para pegar apenas a palavra
+      determinaTempoVerbal(arqSaida, palavra); // chama a funcao para executar a logica se eh ou nao verbo e conjugalo caso seja
     }
   }
 
+  // fecha os arquivos abertos
   fclose(arqEntrada);
   fclose(arqSaida);
 }
