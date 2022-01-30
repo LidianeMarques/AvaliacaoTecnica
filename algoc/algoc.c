@@ -101,7 +101,6 @@ void main(void)
     // cria as variaveis e instancia algumas
     FILE *arqEntrada;
     FILE *arqSaida;
-    char *tecla;
     struct no_lista *item = NULL;
     int constante;
     // fim da criacao das variaveis

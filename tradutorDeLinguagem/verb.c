@@ -65,6 +65,13 @@ void determinaTempoVerbal(FILE *arqSaida, char *palavra)
   int cont; //variável de controle do loop
   for (cont = 0; cont < 6; cont++)
   {
+    // // debug
+    // printf("|%s==%s>%d|%d!\n",
+    //        presente[cont],
+    //        pegaUltimosCaracteres(palavra, strlen(presente[cont])),
+    //        strcmp(presente[cont], pegaUltimosCaracteres(palavra, strlen(presente[cont]))) ? 0 : 1,
+    //        strlen(palavra));
+
     if (is_tempo_verbal(presente[cont], palavra) == 1)
     {
       descreveTempoVerbal(arqSaida, presente[cont], palavra, tempoVerbal[cont]);
@@ -94,33 +101,28 @@ void main()
 {
   FILE *arqEntrada;
   FILE *arqSaida;
-  char str[100];
-  char *palavra = malloc(strlen(str));
+  char tmp[20];
+  char *palavra = malloc(strlen(tmp));
 
   arqEntrada = fopen("verb.in", "r"); // pega um arquivo texto para leitura
   if (arqEntrada == NULL)             // verifica se nào conseguiu encontrar
   {
     printf("Problemas na leitura do arquivo \n");
-    return;
   }
   arqSaida = fopen("verb.out", "w"); // pega ou cria um arquivo texto para gravação (caso ja tenha algo apaga tudo)
   if (arqSaida == NULL)              // verifica se nào conseguiu criar
   {
     printf("Problemas na CRIACAO do arquivo\n");
-    return;
   }
 
   // percorre todo arquivo pegando cada linha (palavra) que contem até o final
   while (!feof(arqEntrada))
   {
-    if (fgets(str, 100, arqEntrada)) // pega toda a linha
-    {
-      // tira o \n
-      palavra = trimString(str);               // faz um tratamento pra tirar os espacos do inicio e do fim da linha para pegar apenas a palavra
-      determinaTempoVerbal(arqSaida, palavra); // chama a funcao para executar a logica se eh ou nao verbo e conjugalo caso seja
-    }
+    fscanf(arqEntrada, "%s", palavra);
+    // printf("%s", palavra);
+    // tira o espacos          // faz um tratamento pra tirar os espacos do inicio e do fim da linha para pegar apenas a palavra
+    determinaTempoVerbal(arqSaida, trimString(palavra)); // chama a funcao para executar a logica se eh ou nao verbo e conjugalo caso seja
   }
-
   // fecha os arquivos abertos
   fclose(arqEntrada);
   fclose(arqSaida);
