@@ -129,21 +129,23 @@ void main(void)
             fprintf(arqSaida, "Constant %d\n", constante); //mosta no arquivo de saida a mensagem de titulo com a determinada constante
             if (constante > 0)                             // entra se a constante for positiva
             {
-                printf("PLUSONE\n");                           //mosta no terminal a mensagem PLUSONE
-                fprintf(arqSaida, "PLUSONE\n");                // cria o primeiro item da pilha para .
-                item = trataNumero(arqSaida, constante, NULL); // envia a contante para criar os comandos do ALGOC
+                printf("PLUSONE\n"); //mosta no terminal a mensagem PLUSONE
+                fprintf(arqSaida, "PLUSONE\n");
+                item = add(arqSaida, "", NULL);                // adiciona o item de quebra de linha na pilha para deixar uma linha em branco no final.
+                item = trataNumero(arqSaida, constante, item); // envia a contante para criar os comandos do ALGOC
             }
             else if (constante < 0) // entra se a constante for negativa
             {
-                printf("MINUSONE\n");                          //mosta no terminal a mensagem MINUSONE
-                fprintf(arqSaida, "MINUSONE\n");               // adiciona o item de quebra de linha na pilha para deixar uma linha em branco no final.
-                item = trataNumero(arqSaida, constante, NULL); // envia a contante para criar os comandos do ALGOC
+                printf("MINUSONE\n"); //mosta no terminal a mensagem MINUSONE
+                fprintf(arqSaida, "MINUSONE\n");
+                item = add(arqSaida, "", NULL);                // adiciona o item de quebra de linha na pilha para deixar uma linha em branco no final.
+                item = trataNumero(arqSaida, constante, item); // envia a contante para criar os comandos do ALGOC
             }
         }
         else
         {
-            printf("\n", constante);            //mosta no terminal a ultima linha em branco
-            fprintf(arqSaida, "\n", constante); //mosta no arquivo de saida a ultima linha em branco
+            // printf("\n", constante);            //mosta no terminal a ultima linha em branco
+            //  fprintf(arqSaida, "\n", constante); //mosta no arquivo de saida a ultima linha em branco
             break;
         }
         listar(arqSaida, item); // faz a listagem da pilha ou seja lista primeiro o ultimo que foi adicionado a pilha

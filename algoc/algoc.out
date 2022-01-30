@@ -2,6 +2,7 @@ Constant 3
 PLUSONE
 DUP
 INC
+
 Constant -5
 MINUSONE
 DUP
@@ -9,14 +10,17 @@ DUP
 INC
 DUP
 INC
+
 Constant 1
 PLUSONE
+
 Constant 7
 PLUSONE
 DUP
 INC
 DUP
 INC
+
 Constant -32768
 MINUSONE
 DUP
@@ -34,6 +38,7 @@ DUP
 DUP
 DUP
 DUP
+
 Constant 32767
 PLUSONE
 DUP
@@ -64,12 +69,14 @@ DUP
 INC
 DUP
 INC
+
 Constant 10
 PLUSONE
 DUP
 DUP
 INC
 DUP
+
 Constant 20
 PLUSONE
 DUP
@@ -77,6 +84,7 @@ DUP
 INC
 DUP
 DUP
+
 Constant 17
 PLUSONE
 DUP
